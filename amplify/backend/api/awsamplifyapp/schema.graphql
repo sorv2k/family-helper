@@ -1,0 +1,7 @@
+type Task @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  title: String!
+  description: String
+  status: String!
+  priority: String
+}
