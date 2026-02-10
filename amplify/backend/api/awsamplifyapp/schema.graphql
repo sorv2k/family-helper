@@ -8,3 +8,12 @@ type Expense @model @auth(rules: [{allow: owner}]) {
   status: String!
   receiptImageKey: String
 }
+
+type Task @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  title: String!
+  description: String
+  status: String!
+  priority: String
+  imageKey: String
+}

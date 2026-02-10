@@ -3,7 +3,7 @@ backend:
   phases:
     build:
       commands:
-        - amplifyPush --simple --allow-destructive-graphql-schema-updates
+        - amplifyPush --simple
 frontend:
   phases:
     preBuild:
