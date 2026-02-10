@@ -1,17 +1,20 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTask = /* GraphQL */ `
-  subscription OnCreateTask(
-    $filter: ModelSubscriptionTaskFilterInput
+export const onCreateExpense = /* GraphQL */ `
+  subscription OnCreateExpense(
+    $filter: ModelSubscriptionExpenseFilterInput
     $owner: String
   ) {
-    onCreateTask(filter: $filter, owner: $owner) {
+    onCreateExpense(filter: $filter, owner: $owner) {
       id
-      title
-      description
+      name
+      amount
+      category
+      notes
+      date
       status
-      priority
+      receiptImageKey
       createdAt
       updatedAt
       owner
@@ -19,17 +22,20 @@ export const onCreateTask = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateTask = /* GraphQL */ `
-  subscription OnUpdateTask(
-    $filter: ModelSubscriptionTaskFilterInput
+export const onUpdateExpense = /* GraphQL */ `
+  subscription OnUpdateExpense(
+    $filter: ModelSubscriptionExpenseFilterInput
     $owner: String
   ) {
-    onUpdateTask(filter: $filter, owner: $owner) {
+    onUpdateExpense(filter: $filter, owner: $owner) {
       id
-      title
-      description
+      name
+      amount
+      category
+      notes
+      date
       status
-      priority
+      receiptImageKey
       createdAt
       updatedAt
       owner
@@ -37,17 +43,20 @@ export const onUpdateTask = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTask = /* GraphQL */ `
-  subscription OnDeleteTask(
-    $filter: ModelSubscriptionTaskFilterInput
+export const onDeleteExpense = /* GraphQL */ `
+  subscription OnDeleteExpense(
+    $filter: ModelSubscriptionExpenseFilterInput
     $owner: String
   ) {
-    onDeleteTask(filter: $filter, owner: $owner) {
+    onDeleteExpense(filter: $filter, owner: $owner) {
       id
-      title
-      description
+      name
+      amount
+      category
+      notes
+      date
       status
-      priority
+      receiptImageKey
       createdAt
       updatedAt
       owner

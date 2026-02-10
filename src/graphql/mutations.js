@@ -1,17 +1,20 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTask = /* GraphQL */ `
-  mutation CreateTask(
-    $input: CreateTaskInput!
-    $condition: ModelTaskConditionInput
+export const createExpense = /* GraphQL */ `
+  mutation CreateExpense(
+    $input: CreateExpenseInput!
+    $condition: ModelExpenseConditionInput
   ) {
-    createTask(input: $input, condition: $condition) {
+    createExpense(input: $input, condition: $condition) {
       id
-      title
-      description
+      name
+      amount
+      category
+      notes
+      date
       status
-      priority
+      receiptImageKey
       createdAt
       updatedAt
       owner
@@ -19,17 +22,20 @@ export const createTask = /* GraphQL */ `
     }
   }
 `;
-export const updateTask = /* GraphQL */ `
-  mutation UpdateTask(
-    $input: UpdateTaskInput!
-    $condition: ModelTaskConditionInput
+export const updateExpense = /* GraphQL */ `
+  mutation UpdateExpense(
+    $input: UpdateExpenseInput!
+    $condition: ModelExpenseConditionInput
   ) {
-    updateTask(input: $input, condition: $condition) {
+    updateExpense(input: $input, condition: $condition) {
       id
-      title
-      description
+      name
+      amount
+      category
+      notes
+      date
       status
-      priority
+      receiptImageKey
       createdAt
       updatedAt
       owner
@@ -37,17 +43,20 @@ export const updateTask = /* GraphQL */ `
     }
   }
 `;
-export const deleteTask = /* GraphQL */ `
-  mutation DeleteTask(
-    $input: DeleteTaskInput!
-    $condition: ModelTaskConditionInput
+export const deleteExpense = /* GraphQL */ `
+  mutation DeleteExpense(
+    $input: DeleteExpenseInput!
+    $condition: ModelExpenseConditionInput
   ) {
-    deleteTask(input: $input, condition: $condition) {
+    deleteExpense(input: $input, condition: $condition) {
       id
-      title
-      description
+      name
+      amount
+      category
+      notes
+      date
       status
-      priority
+      receiptImageKey
       createdAt
       updatedAt
       owner

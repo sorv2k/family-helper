@@ -1,14 +1,17 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTask = /* GraphQL */ `
-  query GetTask($id: ID!) {
-    getTask(id: $id) {
+export const getExpense = /* GraphQL */ `
+  query GetExpense($id: ID!) {
+    getExpense(id: $id) {
       id
-      title
-      description
+      name
+      amount
+      category
+      notes
+      date
       status
-      priority
+      receiptImageKey
       createdAt
       updatedAt
       owner
@@ -16,19 +19,22 @@ export const getTask = /* GraphQL */ `
     }
   }
 `;
-export const listTasks = /* GraphQL */ `
-  query ListTasks(
-    $filter: ModelTaskFilterInput
+export const listExpenses = /* GraphQL */ `
+  query ListExpenses(
+    $filter: ModelExpenseFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listExpenses(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        title
-        description
+        name
+        amount
+        category
+        notes
+        date
         status
-        priority
+        receiptImageKey
         createdAt
         updatedAt
         owner
