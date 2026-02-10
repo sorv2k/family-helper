@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { generateClient } from 'aws-amplify/api';
-import { Container, Header, Button, Form, Card, Icon } from 'semantic-ui-react';
-import { listTasks } from './graphql/queries';
-import { createTask, deleteTask, updateTask } from './graphql/mutations';
+import { Container, Header, Button, Form, Card, Icon, Loader } from 'semantic-ui-react';
+import { useTasks } from './hooks/useTasks';
 import './App.css';
 
-const client = generateClient();
-
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const { tasks, loading, addTask, removeTask, toggleStatus } = useTasks();
   const [formData, setFormData] = useState({ 
     title: '', 
     description: '', 
@@ -18,62 +14,10 @@ function App() {
     priority: 'MEDIUM' 
   });
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  async function fetchTasks() {
-    try {
-      const taskData = await client.graphql({ query: listTasks });
-      const tasks = taskData.data.listTasks.items;
-      setTasks(tasks);
-    } catch (err) {
-      console.log('error fetching tasks', err);
-    }
-  }
-
-  async function addTask() {
-    try {
-      if (!formData.title) return;
-      await client.graphql({
-        query: createTask,
-        variables: { input: formData }
-      });
-      setFormData({ title: '', description: '', status: 'TODO', priority: 'MEDIUM' });
-      fetchTasks();
-    } catch (err) {
-      console.log('error creating task:', err);
-    }
-  }
-
-  async function removeTask(id) {
-    try {
-      await client.graphql({
-        query: deleteTask,
-        variables: { input: { id } }
-      });
-      fetchTasks();
-    } catch (err) {
-      console.log('error deleting task:', err);
-    }
-  }
-
-  async function toggleTaskStatus(task) {
-    try {
-      const newStatus = task.status === 'TODO' ? 'COMPLETED' : 'TODO';
-      await client.graphql({
-        query: updateTask,
-        variables: {
-          input: {
-            id: task.id,
-            status: newStatus
-          }
-        }
-      });
-      fetchTasks();
-    } catch (err) {
-      console.log('error updating task:', err);
-    }
+  async function handleAddTask() {
+    if (!formData.title) return;
+    await addTask(formData);
+    setFormData({ title: '', description: '', status: 'TODO', priority: 'MEDIUM' });
   }
 
   return (
@@ -115,37 +59,41 @@ function App() {
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
             />
-            <Button primary onClick={addTask}>Add Task</Button>
+            <Button primary onClick={handleAddTask}>Add Task</Button>
           </Form>
 
-          <Card.Group style={{ marginTop: '30px' }}>
-            {tasks.map(task => (
-              <Card key={task.id} fluid>
-                <Card.Content>
-                  <Card.Header>
-                    {task.title}
-                    <Icon
-                      name='trash'
-                      style={{ float: 'right', cursor: 'pointer' }}
-                      onClick={() => removeTask(task.id)}
-                      color='red'
-                    />
-                  </Card.Header>
-                  <Card.Meta>{task.priority} Priority</Card.Meta>
-                  <Card.Description>{task.description}</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <Button
-                    size='small'
-                    color={task.status === 'COMPLETED' ? 'green' : 'grey'}
-                    onClick={() => toggleTaskStatus(task)}
-                  >
-                    {task.status === 'COMPLETED' ? 'Completed' : 'Mark Complete'}
-                  </Button>
-                </Card.Content>
-              </Card>
-            ))}
-          </Card.Group>
+          {loading ? (
+            <Loader active inline='centered' style={{ marginTop: '30px' }}>Loading tasks...</Loader>
+          ) : (
+            <Card.Group style={{ marginTop: '30px' }}>
+              {tasks.map(task => (
+                <Card key={task.id} fluid>
+                  <Card.Content>
+                    <Card.Header>
+                      {task.title}
+                      <Icon
+                        name='trash'
+                        style={{ float: 'right', cursor: 'pointer' }}
+                        onClick={() => removeTask(task.id)}
+                        color='red'
+                      />
+                    </Card.Header>
+                    <Card.Meta>{task.priority} Priority</Card.Meta>
+                    <Card.Description>{task.description}</Card.Description>
+                  </Card.Content>
+                  <Card.Content extra>
+                    <Button
+                      size='small'
+                      color={task.status === 'COMPLETED' ? 'green' : 'grey'}
+                      onClick={() => toggleStatus(task)}
+                    >
+                      {task.status === 'COMPLETED' ? 'Completed' : 'Mark Complete'}
+                    </Button>
+                  </Card.Content>
+                </Card>
+              ))}
+            </Card.Group>
+          )}
         </Container>
       )}
     </Authenticator>
